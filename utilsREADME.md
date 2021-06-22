@@ -10,13 +10,13 @@
 
 ##Description:
 undefined
-##Instalation:
+##Installation:
 undefined
 ##Usage:
 undefined
 ##License:
 undefined
-##Contributtiong
+##Contribution
 undefined
 ##Tests
 undefined

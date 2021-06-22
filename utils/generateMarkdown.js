@@ -35,7 +35,7 @@ ${data.usage}
 ${data.licensing}
 ## Contribution:
 ${data.contribution}
-## Testing:
+## Tests:
 ${data.testing}
 
 ## Questions
