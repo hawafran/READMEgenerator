@@ -1,75 +1,145 @@
-// TODO: Include packages needed for this application
 const inquirer = require('inquirer');
 const fs = require('fs');
-const generateMarkdown= require('./utils/generateMarkdown.js')
+const generateMarkdown = require('./utils/generateMarkdown.js')
 
-// TODO: Create an array of questions for user input
-
-
-
-
-  const questions = []; 
-  inquirer
-  .prompt([
-    
-      {
-          type: 'input',
-          name: 'Title',
-          message: "What is the title of your project?"
-      },
-      {
-          type:'input',
-          name:'instructions',
-          message:"Please enter your project's instructions",
-      },
-      {
-        type:'input',
-        name:'usage',
-        message:"Which applications will be run?",
-      },
-      {
-        type:'input',
-        name:'controbution',
-        message:"Who contributed to this project, and what did they contribute?",
-      },
-      {
-        type:'input',
-        name:'test',
-        message:"What are the test instructions?",
-      },
-      {
-          type:'input',
-          name:'github',
-          message:"What is your GitHub username?"
-      },
-      {
-          type:'input',
-          name:'email',
-          message: "What is your email?"
-      },
-
-    ])
-
-
-// TODO: Create a function to write README file
-function writeToFile(fileName, data) {
-    fs.writeFile("./utils"+fileName,data, function(err){
-        if (err){
-        return console.log (err);
+const questions = [
+    // Project name
+    {
+        type: 'input',
+        name: 'title',
+        message: 'What is the title of your project?',
+        validate: titleInput => {
+            if (titleInput) {
+                return true;
+            } else {
+                console.log('please enter title!');
+                return false;
+            }
         }
-        console.log("successfuly wrote " + fileName)
+    },
+    // Description of project
+    {
+        type: 'input',
+        name: 'description',
+        message: 'Please enter a decription of your project',
+        validate: descriptionInput => {
+            if (descriptionInput) {
+                return true;
+            } else {
+                console.log('please enter description!');
+                return false;
+            }
+        }
+    },
+    // Installation Instructions
+    {
+        type: 'input',
+        name: 'installation',
+        message: 'What are the installation instructions?',
+        validate: installationInput => {
+            if (installationInput) {
+                return true;
+            } else {
+                console.log('please enter installation instructions!');
+                return false;
+            }
+        }
+    },
+    // Usage Information
+    {
+        type: 'input',
+        name: 'usage',
+        message: 'How do you use this project?',
+        validate: usageInput => {
+            if (usageInput) {
+                return true;
+            } else {
+                console.log('please enter instructions !');
+                return false;
+            }
+        }
+    },
+    // Contribution Guidlines
+    {
+        type: 'input',
+        name: 'contribution',
+        message: 'How should people contribute to this project?',
+        validate: contributionInput => {
+            if (contributionInput) {
+                return true;
+            } else {
+                console.log('You need to provide information on how to contribute to the project!');
+                return false;
+            }
+        }
+    },
+    // Test Instructions 
+    {
+        type: 'input',
+        name: 'testing',
+        message: 'How do you test this project?',
+        validate: testingInput => {
+            if (testingInput) {
+                return true;
+            } else {
+                console.log('please enter info about how to test!');
+                return false;
+            }
+        }
+    },
+    // License Options
+    {
+        type: 'checkbox',
+        name: 'licensing',
+        message: 'Choose a license for your project',
+        choices: ['Apache', 'MIT', 'Mozilla-Public', 'GNU-General-Public', 'Common-Development-and Distribution', 'None'],
+        validate: licensingInput => {
+            if (licensingInput) {
+                return true;
+            } else {
+                console.log('You must pick a license for the project!');
+                return false;
+            }
+        }
+    },
+    // Github Username
+    {
+        type: 'input',
+        name: 'github',
+        message: 'Enter your GitHub Username',
+        validate: githubInput => {
+            if (githubInput) {
+                return true;
+            } else {
+                console.log('Please enter your GitHub username!');
+                return false;
+            }
+        }
+    },
+    // Email Address
+    {
+        type: 'input',
+        name: 'email',
+        message: 'Enter your email',
+    },
+];
 
-    })
-}
-
-// TODO: Create a function to initialize app
-function init() {
-    inquirer.prompt(questions)
-    .then(function(data){
-        writeToFile("README.md", generateMarkdown(data));
-    })
+// Function to write README file
+function writeToFile(fileName, data) {
+    fs.writeFile(fileName, data, (err) => {
+        if (err)
+            throw err;
+        console.log('Success! DME created!')
+    });
 };
 
-// Function call to initialize app
-init();
+// Function to initialize app
+function init() {
+    inquirer.prompt(questions)
+    .then(function (userInput) {
+        console.log(userInput)
+        writeToFile("README.md", generateMarkdown(userInput));
+    });
+};
 
+init();
